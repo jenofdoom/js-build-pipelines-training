@@ -1,27 +1,55 @@
 # Webpack
 
+Usually, you'll be starting from an example Webpack configuration rather than
+building all of this out from scratch, but my aim here is to teach you from
+scratch so you'll know what all of the parts of the config file are doing in
+case you need to tweak them.
+
 Note that we're using version 2 of Webpack ([docs
 here](https://webpack.js.org/concepts/)), not version 1 - if you're later
-looking up tutorials etc make sure you're looking at the right version, the
+looking up tutorials etc. make sure you're looking at the right version, the
 syntax differs.
 
-`npm install --save-dev webpack`
+In our example project folder `webpack-tutorial`, first run `npm install` by
+itself to get the already-specified project dependencies. Then:
+
+```
+npm install --save-dev webpack
+```
+
+> (From this point on, assume any `npm install` instructions should be carried
+out in a terminal from inside the
+`~/js-build-pipelines-training/webpack-tutorial` folder)
+
+## Basic empty config file
+
+Make a file (at the same level as the `package.json` file) called
+`webpack.config.js` with the following contents:
+
+```
+const config = {
+
+};
+
+module.exports = config;
+```
 
 ## Defining the entry and output
 
-Inside the `config` object in `webpack.config.js`:
+Inside the `config` object (from this point on everything we add, unless
+otherwise specified, goes into the config object) in `webpack.config.js`:
 
 ```
 entry: './src/index.jsx',
 ```
 
-At the top of the file: 
+At the top of the file:
 
 ```
 const path = require('path');
 ```
 
-Inside the `config` object in `webpack.config.js`:
+In `webpack.config.js`:
 
 ```
 output: {
@@ -30,16 +58,84 @@ output: {
 },
 ```
 
+## Better path resolution
+
+```
+resolve: {
+  extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
+  modules: [path.resolve(__dirname, 'src'), 'node_modules']
+}
+```
+
 ## Transforming our project files with loaders
 
 Natively, Webpack only understands JavaScript, but if we want to get to a point
 where we can delegate all of our bundling to Webpack we should utilise some
 _loaders_ in order to be able to also process:
 
-* es6
-* jsx
-* css/scss/less
+* es6 aka es2015
+* jsx (if we're using React)
 * images and other files
+* css/scss/less
+
+### JS transpilation
+
+We use [Babel](http://babeljs.io/) to transpile our modern JS (es6) to JS that
+is supported across all browsers.
+
+`npm install --save-dev babel-loader babel-core babel-preset-env babel-preset-react`
+
+Note that you only need `babel-preset-react` for React projects.
+
+```
+module: {
+  rules: [
+    {
+      test: /\.(js|jsx)$/,
+      exclude: /node_modules/,
+      loader: 'babel-loader'
+    }
+  ]
+}
+```
+
+We need to provide some configuration for our Babel loader - this could go in
+the webpack config but it's more typical to create a dedicated configuration
+file. This is also where we can specify (if we're using React) that we want to
+convert jsx to js too. Create a file called `.babelrc` at the project root:
+
+```
+{
+  "presets": [
+    "react",
+    [
+      "env",
+      {
+        "targets": {
+          "uglify": true
+        },
+        "modules": false
+      }
+    ]
+  ]
+}
+```
+
+Obviously you'd only include `react` for a React project.
+
+The `env` preset has configuration setting to disable Babel's module imports,
+because Webpack 2 takes care of those for us.
+
+If you need to support older browsers you might want to configure which browsers
+`env` targets, see the [docs for
+env](http://babeljs.io/docs/plugins/preset-env/).
+
+You could also add additional presets, like the
+[stage-x](http://babeljs.io/docs/plugins/#presets-stage-x-experimental-presets-)
+presets for upcoming JavaScript features, for example
+[preset-stage-3](http://babeljs.io/docs/plugins/preset-stage-3/) includes the
+[object destructuring spread
+operator](http://babeljs.io/docs/plugins/transform-object-rest-spread/).
 
 ## Add a build command in package.json
 
@@ -52,23 +148,62 @@ In `package.json`:
 },
 ```
 
-`npm run build`
+In your terminal:
+
+```
+npm run build
+```
+
+## HTML index
+
+It doesn't matter if our file compiles OK if we don't have a HTML page to load
+it from. We could just hand write a file and manually add a script tag to our
+bundle, but it's usually better to use a Webpack plugin called
+[HtmlWebpackPlugin](https://github.com/jantimon/html-webpack-plugin) to take
+care of this for us, as it has some nice extra functionality. We already have a
+simple `src/index.html` file that we can use.
+
+`npm install --save-dev html-webpack-plugin`
+
+In `webpack.config.js`:
+
+```
+plugins: [
+  new HtmlWebpackPlugin({
+    template: './src/index.html',
+    hash: true
+  })
+],
+```
+
+Because this is a plugin, we need to include it at the top of the file:
+
+```
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+```
 
 ## Development server
 
-`npm install --save-dev webpack-dev-server`
+We can use
+[webpack-dev-server](https://webpack.github.io/docs/webpack-dev-server.html) to
+provide a development webserver for us.
+
+```
+npm install --save-dev webpack-dev-server
+```
 
 In `package.json`:
 
 ```
 "scripts": {
   "test": "echo \"Error: no test specified\" && exit 1",
-  "start": "./node_modules/.bin/webpack-dev-server --hot --inline",
-  "build": "./node_modules/.bin/webpack"
+  "build": "./node_modules/.bin/webpack",
+  "start": "./node_modules/.bin/webpack-dev-server --hot --inline"
 },
 ```
 
-In `webpack.config.js`:
+In `webpack.config.js` we should make sure that our dev server supports HTML5
+push state:
 
 ```
 devServer: {
@@ -76,47 +211,202 @@ devServer: {
 },
 ```
 
-`npm start`
+Now in a terminal we can leave the dev server running, and it will automatically
+rebuild when it sees changes are saved to the project.
 
+```
+npm start
+```
 
-## Polyfills
+> The development server runs on a port on localhost (8080 by default, but you
+can configure what the port number is). If you need to be developing against a
+backend API that's normally supposed to be on the same domain, which doesn't
+have `Access-Control-Allow-Origin` set, you're going to run into issues with
+CORS. You can look at setting up a reverse proxy with nginx or Apache to
+sidestep this, but this will prevent the hot reload from working. Read more
+about [SOP problems
+here](https://jvaneyck.wordpress.com/2014/01/07/cross-domain-requests-in-javascript/)
+(and avoid going down the jsonp route for a solution).
 
-whatwg-fetch
+## More loaders
 
-other es6 stuff
+### Polyfills
 
-##  CSS
+Some modern JavaScript we might want to use (beyond just ES6 syntax) is not
+supported in IE and some other browsers. For example, the new specification for
+AJAX requests that supersedes XHR, fetch, needs a polyfill for most browsers.
 
-styles-loader and css-loader
+When we have a polyfill we want our code to include, we can normally npm install
+it and the include it in our Webpack build by adding an extra entry point to our
+app, so for example `entry: './src/index.jsx'` might become `entry:
+['whatwg-fetch', './src/index.jsx'],` where
+[whatwg-fetch](https://github.com/github/fetch) is the name of the fetch
+polyfill package.
 
-## Files
+For more general polyfills, look at
+[babel-polyfill](https://babeljs.io/docs/usage/polyfill/) which pulls in
+[core-js](https://github.com/zloirock/core-js). Right now our project uses
+`Object.values()` in the search functionality, which is not yet supported in
+older browsers - we can fix this:
 
-`/assets` folder
+```
+npm install --save-dev babel-polyfill
+```
 
-image credit: https://www.flickr.com/photos/volvob12b/13638621465/
+In `webpack.config.js`, change the entry point to an array:
 
-import photo from 'assets/img/banks-peninsula.jpg';
+```
+entry: ['babel-polyfill', './src/index.jsx'],
+```
 
+### Images and other files
+
+Any images that are referenced from within our JSX, or (later on) files that get
+imported through our CSS (for example, webfont files) will also be pulled into
+the build by Webpack. We need to tell Webpack how to deal with these files, by
+using the [url-loader](https://github.com/webpack-contrib/url-loader):
+
+```
+npm install --save-dev url-loader
+```
+
+In `webpack.config.js`, in the module rules, underneath our JSX rule:
+
+```
+{
+  test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+  loader: 'url-loader?limit=10000'
+}
+```
+
+_url-loader_ will insert a data URI rather than a separate file if the filesize
+is less than 10kb (as we're configured it) otherwise it automatically uses
+_file-loader_ to write the file out as a separate asset.
+
+If we want to include images or other files, we should store them somewhere on
+our `src` tree. In the example project I've already created a `src/assets/img`
+folder and put a couple of images in it ([photo
+credit](https://www.flickr.com/photos/volvob12b/13638621465/), [pattern
+credit](https://www.toptal.com/designers/subtlepatterns/crossword/)).
+
+We can now use the photo image in our JSX as an image tag (just add it at the
+bottom of `src/components/about/about.jsx`):
+
+```
 <img src={photo} />
+```
 
-favicons???
+and at the top of the file:
 
-## SCSS
+```
+import photo from 'assets/img/banks-peninsula.jpg';
+```
 
-### sass-loader
+> Optional: some files might need directly copying over to your dist folder
+because they aren't imported from your normal source tree (e.g. a `robots.txt`
+file). Look at
+[CopyWebpackPlugin](https://github.com/kevlened/copy-webpack-plugin) for this
+functionality.
 
-### postcss-loader
+> Optional: if you want to set up favicons for your site you can either directly
+copy them over using CopyWebpackPlugin, or you can use a favicon plugin,
+[FaviconsWebpackPlugin](https://github.com/jantimon/favicons-webpack-plugin)
 
+###  CSS
 
-`npm install --save-dev postcss-loader autoprefixer postcss-flexbugs-fixes`
+To get just CSS working all we need to do is:
 
-at the top of the file:
+```
+npm install --save-dev style-loader css-loader
+```
+
+And in the module rules in `webpack.config.js`, below the `jsx` test:
+
+```
+{
+  test: /\.css$/,
+  use: ['style-loader', 'css-loader']
+},
+```
+
+Now we can include our CSS file from the project index (we could include
+multiple css files, if we had them). In `index.jsx`, uncomment the `// import
+'styles.css';` line.
+
+File paths in the CSS (for background images) will use the same `url-loader`
+process as images, although note that they are relative to the entry point (if
+you want to do imports relative to the `.scss` file, look at
+[resolve-url-loader](https://github.com/bholloway/resolve-url-loader)). So we
+can now add a background image in the styling for the body tag in 
+
+```
+background: url(assets/img/crossword.png);
+```
+
+### SCSS
+
+First we need to delete the reference to our `styles.css` file that we don't
+need any more, so we can swap to the `.scss` files I've already preprepared in
+the example. In `index.jsx`, uncomment the `// import 'index.scss';` line and
+delete the `import 'styles.css';` line.
+
+We also need to uncomment the `.scss` imports in several other files:
+
+* `src/components/row/row.jsx`
+* `src/components/search/search.jsx`
+* `src/components/table/table.jsx`
+
+#### sass-loader
+
+We use the [sass-loader](https://github.com/webpack-contrib/sass-loader) to
+transform our `.scss` files:
+
+```
+npm install --save-dev sass-loader
+```
+
+In the module rules in `webpack.config.js`, alter the `css` test:
+
+```
+test: /\.scss$/,
+use: [
+  'style-loader',
+  'css-loader',
+  {
+    loader: 'sass-loader',
+    options: {
+      includePaths: [path.resolve(__dirname, 'src')]
+    }
+  }
+]
+```
+
+The _includePaths_ option means that we can split our files up, so we can both
+take advantage of normal SCSS imports, and also do direct imports of `.scss`
+files.
+
+#### postcss-loader
+
+As well as regular SCSS it's good to post-process our CSS to use an
+[autoprefixer](https://github.com/postcss/autoprefixer) (and in this instance
+we're also going to use
+[postcss-flexbugs-fixes](https://github.com/luisrudge/postcss-flexbugs-fixes)
+because Bootstrap requires it).
+
+```
+npm install --save-dev postcss-loader autoprefixer postcss-flexbugs-fixes
+```
+
+At the top of the configuration file:
+
 ```
 const autoprefixer = require('autoprefixer');
 const flexfixes = require('postcss-flexbugs-fixes');
 ```
 
-after `css-loader` and before `sass-loader`:
+Inside the `use` object in the `scss` test, after `css-loader` and before
+`sass-loader`:
+
 ```
 {
   loader: 'postcss-loader',
@@ -129,7 +419,7 @@ after `css-loader` and before `sass-loader`:
 },
 ```
 
-### Integrating Bootstrap
+#### Integrating Bootstrap
 
 _(Obviously, if you didn't want to integrate Bootstrap you'd not do this bit!)_
 
@@ -152,7 +442,7 @@ In your main `.scss` file, add:
 The tilde tells the importer not to use a relative path, so it will then resolve
 from the `node_modules` folder.
 
-#### Customising Bootstrap's variables
+##### Customising Bootstrap's variables
 
 Refer to `node_modules/bootstrap/scss/_variables.scss` to see what variables can
 be customised. Make a new file in your `src/base-styles/` folder,
@@ -165,17 +455,208 @@ bootstrap file (due to the way that the _!default_ declaration works):
 @import "~bootstrap/scss/bootstrap";
 ```
 
+We can add a rule to make our primary colour green not blue in our
+`src/base-styles/_custom-bootstrap.scss`:
+
+```
+$brand-primary: #48a843;
+```
+
 ## Linting with ESLint
 
-## Source maps
+Because of its good support of ES2015 and React, we will use
+[ESLint](http://eslint.org) for our code linting. We can build the linter into
+our build process so we'll see any problems in the compile process immediately.
+
+```
+npm install eslint --save-dev
+```
+
+ESLint has a configuration tool we can use to get set up quickly:
+
+```
+./node_modules/.bin/eslint --init
+```
+
+I'd suggest giving the following answers (for this project, for your own you can
+set up as you please):
+
+1. How would you like to configure ESLint? Answer questions about your style
+2. Are you using ECMAScript 6 features? Yes
+3. Are you using ES6 modules? Yes
+4. Where will your code run? Browser
+5. Do you use CommonJS? No
+6. Do you use JSX? Yes
+7. Do you use React? Yes
+8. What style of indentation do you use? Spaces
+9. What quotes do you use for strings? Single
+10. What line endings do you use? Unix
+11. Do you require semicolons? Yes
+12. What format do you want your config file to be in? JSON
+
+This will create an `.eslint.json` file for you - open it in a code editor and
+change the indent to `2` on line 20 to match our current project. We also want
+to change line 6 from `"extends": "eslint:recommended",` to:
+
+```
+"extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+],
+```
+
+> Optional: there are a bunch of other configurations you can make, for example
+I prefer the `"no-console"` check to "warn" rather than "error". See the [rules
+list](http://eslint.org/docs/rules/) for more information.
+
+Now we can add the linter to our build process. First, install the ESlint loader:
+
+```
+npm install --save-dev eslint-loader
+```
+
+In the module rules in the config object in `webpack.config.js`, at the top
+before the `babel-loader`:
+
+```
+{
+  enforce: 'pre',
+  test: /\.(js|jsx)$/,
+  exclude: /node_modules/,
+  loader: 'eslint-loader',
+},
+```
 
 ## Production build
 
-ExtractTextPlugin
-https://webpack.js.org/plugins/extract-text-webpack-plugin/#extracting-sass-or-less
+Webpack has a shortcut for the most common needed configuration for [production
+builds](https://webpack.js.org/guides/production-build/), by adding `-p` to the
+command line. We can add this now to our build command in `package.json`:
 
-https://webpack.js.org/loaders/sass-loader/#extracting-style-sheets
+`"build": "./node_modules/.bin/webpack -p",`
 
-node env var
+We should also make sure we don't end up with any cruft in our build folder, so
+it's a good idea to always delete the old build before creating a new one:
 
--p
+`"build": "rm -rf ./dist && ./node_modules/.bin/webpack -p",`
+
+You should see that after applying the prod flag, the `bundle.js` file is
+substantially smaller in size  (from about 1.49 MB to 375 kB)!
+
+### Source maps
+
+It's good to have source maps enabled in production, for debugging and
+performance profiling. Webpack has [many different
+schema](https://webpack.js.org/configuration/devtool/) for generating source
+maps, some of which are better for dev than prod.
+
+I recommend `cheap-module-source-map` for production and
+`cheap-module-eval-source-map` for development (based on [this
+advice](http://cheng.logdown.com/posts/2016/03/25/679045)).
+
+There is a variable available at run time that contains the name of the npm
+script (as defined in `package.json`) that invoked webpack, called
+`process.env.npm_lifecycle_event`. So we can base our decision about what source
+maps schema to use on the value of that variable - if it's "build" then we
+should use the `cheap-module-source-map` schema. The config key we need to
+change is the rather misleadingly-named `devtool`.
+
+In `webpack.config.js`, in the config object:
+
+```
+devtool: process.env.npm_lifecycle_event === 'build' ? 'cheap-module-source-map' : 'cheap-module-eval-source-map',
+```
+
+`.map` files should now be output by the build.
+
+> Optional: rather than this crude method of having production specific
+configuration, we could have a common config which can be extended for different
+environments using [webpackMerge](https://github.com/survivejs/webpack-merge).
+Or you can just have two config files, but this leads to a lot of duplication so
+I don't recommend it.
+
+### Separate CSS assets to avoid FOUC
+
+In order to avoid flash of unstyled content, we should use the
+[ExtractTextPlugin](https://github.com/webpack-contrib/extract-text-webpack-plugin)
+to split all the compiled CSS out into a proper old-fashioned CSS file. It's
+fine for this to be in place for our development builds too.
+
+```
+npm install --save-dev extract-text-webpack-plugin
+```
+
+At the top of `webpack.config.js`:
+
+```
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+```
+
+In the plugins array:
+
+```
+new ExtractTextPlugin('bundle.css')
+```
+
+In our module rules, we need to replace the exisiting `.scss` test with one that
+is wrapped with ExtractTextPlugin. So our exisiting rule:
+
+```
+{
+  test: /\.scss$/,
+  use: [
+    'style-loader',
+    'css-loader',
+    {
+      loader: 'postcss-loader',
+      options: {
+        plugins: [
+          autoprefixer({browsers: ['last 2 versions']}),
+          flexfixes()
+        ]
+      }
+    },
+    {
+      loader: 'sass-loader',
+      options: {
+        includePaths: [path.resolve(__dirname, 'src')]
+      }
+    }
+  ]
+},
+```
+
+becomes:
+
+```
+{
+  test: /\.scss$/,
+  use: ExtractTextPlugin.extract({
+    fallback: 'style-loader',
+    use: [
+      'css-loader',
+      {
+        loader: 'postcss-loader',
+        options: {
+          plugins: [
+            autoprefixer({browsers: ['last 2 versions']}),
+            flexfixes()
+          ]
+        }
+      },
+      {
+        loader: 'sass-loader',
+        options: {
+          includePaths: [path.resolve(__dirname, 'src')]
+        }
+      }
+    ]
+  })
+},
+```
+
+You should now get a separate CSS file written. The downside of the plugin is
+that although the bundle still recompiles automatically (when using the dev
+server), the webpage will no longer refresh automatically on style changes. For
+the reason you might want to consider reserving ExtractTextPlugin for your
+production builds only.

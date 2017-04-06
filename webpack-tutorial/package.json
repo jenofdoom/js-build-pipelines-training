@@ -1,0 +1,32 @@
+{
+  "name": "example-webpack-build",
+  "version": "1.0.0",
+  "description": "Tutorial for Webpack",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jenofdoom/js-build-pipelines-training.git"
+  },
+  "keywords": [
+    "training",
+    "webpack",
+    "introduction"
+  ],
+  "author": "Jen Zajac",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jenofdoom/js-build-pipelines-training/issues"
+  },
+  "homepage": "https://github.com/jenofdoom/js-build-pipelines-training#readme",
+  "private": true,
+  "devDependencies": {
+    "clipboard": "~1.6.1",
+    "react": "~15.4.2",
+    "react-dom": "~15.4.2",
+    "react-router-dom": "~4.0.0",
+    "react-scroll-up": "~1.2.1"
+  }
+}
