@@ -1,22 +1,46 @@
 # General overview
 
+Why do we build?
+
+* Only send the client the bits they need
+* Develop in a more powerful syntax
+* Apply transformations like minification
+
 ## Dependency management
 
-npm init
+### npm
 
-devDependencies
+* [package.json](https://docs.npmjs.com/files/package.json) & [npm init](https://docs.npmjs.com/cli/init)
+* [devDependencies](http://stackoverflow.com/a/22004559/160648)
+* [src and dist](http://stackoverflow.com/a/23731040/160648)
+* [version control](https://giphy.com/gifs/git-merge-cFkiFMDg3iFoI/fullscreen) & [.gitignore](https://github.com/jenofdoom/js-build-pipelines-training/blob/master/webpack-example/.gitignore)
+* [versioning strategies](https://docs.npmjs.com/misc/semver)
+* [npm-check-updates](https://www.npmjs.com/package/npm-check-updates)
+* [npm shrinkwrap](https://docs.npmjs.com/cli/shrinkwrap)
 
-versioning strategies
-
-shrinkwrap
-
-version control + .gitignore
-
-npm-check-updates
+Note there is an up-and-coming new dep mananagment layer on top of npm/replacing
+npm coming - [yarn](https://yarnpkg.com/en/).
 
 ## Integrating with other build pipelines
 
+Your frontend build pipeline should limit itself to just the frontend build. If
+your project has a deployment story, you just need to kick off the f/e build as
+part of that process (e.g. ansible or fabric etc. would run `npm install` and
+`npm build`). It is also totally possible to pass in project-level configuration
+via command line arguments to your build process using a npm module like
+[yargs](https://www.npmjs.com/package/yargs).
+
 ## Figuring out what kind of build pipeline is appropriate
+
+* How complex is your project?
+* Is there existing tooling?
+* Do you want to use ES6/ES2015?
+
+Two choices we will explore today:
+
+__Gulp__ for simple `.scss` and jQuery projects.
+
+__Webpack__ for more complex projects using JS modules and ES6.
 
 ## Getting started 
 
