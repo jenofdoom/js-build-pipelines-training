@@ -1,0 +1,40 @@
+{
+  "name": "example-gulp-build",
+  "version": "1.0.0",
+  "description": "Tutorial for gulp",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./node_modules/.bin/gulp build",
+    "start": "./node_modules/.bin/gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jenofdoom/js-build-pipelines-training.git"
+  },
+  "keywords": [
+    "training",
+    "gulp",
+    "introduction"
+  ],
+  "author": "Jen Zajac",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jenofdoom/js-build-pipelines-training/issues"
+  },
+  "homepage": "https://github.com/jenofdoom/js-build-pipelines-training#readme",
+  "private": true,
+  "devDependencies": {
+    "autoprefixer": "~6.7.7",
+    "bootstrap": "~4.0.0-alpha.6",
+    "cssnano": "~3.10.0",
+    "gulp": "~3.9.1",
+    "gulp-concat": "~2.6.1",
+    "gulp-postcss": "~6.4.0",
+    "gulp-sass": "~3.1.0",
+    "gulp-sourcemaps": "~2.6.0",
+    "gulp-uglify": "~2.1.2",
+    "jquery": "~3.2.1",
+    "postcss-flexbugs-fixes": "~2.1.0"
+  }
+}

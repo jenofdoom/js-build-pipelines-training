@@ -1,3 +1,335 @@
+# General overview
+
+## Dependency management
+
+npm init
+
+devDependencies
+
+versioning strategies
+
+shrinkwrap
+
+version control + .gitignore
+
+npm-check-updates
+
+## Integrating with other build pipelines
+
+## Figuring out what kind of build pipeline is appropriate
+
+## Getting started 
+
+If you have your own github account already, you might prefer to fork this
+repository and clone that instead. If you don't just run the following commands
+on a terminal or command line interface (assuming that your machine already has
+[git available](https://git-scm.com/downloads)):
+
+```
+git clone https://github.com/jenofdoom/js-build-pipelines-training.git
+cd js-build-pipelines-training
+```
+
+### Install node, npm and project dependencies
+
+First, we need to install [node.js](https://nodejs.org/) and its package
+manager, npm.
+
+[Ubuntu/Debian/Mint instructions](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions)
+
+[Mac instructions](http://blog.teamtreehouse.com/install-node-js-npm-mac)
+
+[Windows instructions](http://blog.teamtreehouse.com/install-node-js-npm-windows)
+
+### Code editor
+
+If you have a favourite code editor feel free to use that, but I recommend
+[Atom](https://atom.io/).
+
+In Atom, right click in the left panel, select `Add Project Folder` and open the
+`js-build-pipelines-training` folder.
+
+# Gulp
+
+In our example project folder `gulp-tutorial`, we want to install a dependency
+into our project manifest (if you were beginning from scratch and didn't have an
+existing `package.json` file you'd start by running `npm init` and answering the
+prompts). From a terminal, in the `gulp-tutorial` folder:
+
+```
+npm install --save-dev gulp
+```
+
+## Copying project files from `src` to `dist`
+
+To start, for all files other than our JS and SCSS files (which we need to
+perform special extra steps on) we just want to directly copy over with no
+transformations. It would be easy to extend this later and break out particular
+file types to have special tasks associated (for example, to compress `.png`
+files).
+
+Create a file in the root of the `gulp-tutorial` folder called `gulpfile.js`.
+This will contain all our build pipeline configuration. Open that file in an
+editor and add the following:
+
+```
+const gulp = require('gulp');
+
+gulp.task('copy-files', () => {   
+  return gulp.src('./src/**')
+    .pipe(gulp.dest('./dist/')); 
+});
+
+gulp.task('build', ['copy-files']);
+```
+
+In `package.json`, modify the scripts to include a new command:
+
+```
+"scripts": {
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "build": "./node_modules/.bin/gulp build"
+},
+```
+
+In a terminal from the `gulp-tutorial` folder you should now be able to run:
+
+```
+npm run build
+```
+
+All the src files should have been copied over to the the dist folder. Open a
+file browser and locate the `dist/index.html` file, right click on it and open
+it in a web browser. Everything will be pretty broken right now until we get
+SCSS compilation working,and integrate some JS dependencies.
+
+### Define all the paths separately
+
+This will make the configuration more centralised and prevent repetition later.
+
+```
+const PATHS = {
+  'src': {
+    'root': './src/**',
+    'scss': './src/scss/**/*.scss',
+    'js': './src/js/**/*.js'
+  },
+  'dist': {
+    'root': './dist/',
+    'css': './dist/css/',
+    'js': './dist/js/'
+  }
+}
+
+gulp.task('copy-files', () => {   
+  return gulp.src(PATHS.src.root)
+    .pipe(gulp.dest(PATHS.dist.root)); 
+});
+```
+
+### Exclude the files in the JS and SCSS folders
+
+```
+gulp.task('copy-files', () => {   
+  return gulp.src([PATHS.src.root, '!' + PATHS.src.scss, '!' + PATHS.src.js])
+    .pipe(gulp.dest(PATHS.dist.root));
+});
+
+```
+
+> This will write out empty folders as it's excluding the contents of the
+folders not the folders themselves, but this doesn't matter a huge amount and
+we'd need separate entries in the PATHS object to sort it out, without the `/\**`
+suffix.
+
+## SCSS compilation
+
+```
+npm install --save-dev gulp-sass
+```
+
+```
+const sass = require('gulp-sass');
+```
+
+```
+gulp.task('scss', () => {
+  return gulp.src(PATHS.src.scss)
+    .pipe(nodesass()
+      .on('error', nodesass.logError)
+    )
+    .pipe(gulp.dest(PATHS.dist.css));
+});
+
+gulp.task('build', ['copy-files', 'scss']);
+```
+
+### sourcemaps, autoprefixer, postcss-flexbugs-fixes and minification
+
+```
+npm install --save-dev gulp-postcss gulp-sourcemaps autoprefixer postcss-flexbugs-fixes cssnano
+```
+
+```
+const postcss = require('gulp-postcss');
+const sourcemaps = require('gulp-sourcemaps');
+const autoprefixer = require('autoprefixer');
+const flexfixes = require('postcss-flexbugs-fixes');
+const cssnano = require('cssnano');
+```
+
+```
+gulp.task('scss', () => {
+  return gulp.src(PATHS.src.scss)
+    .pipe(sass()
+      .on('error', sass.logError)
+    )
+    .pipe(sourcemaps.init())
+    .pipe(postcss([
+      autoprefixer({
+        browsers: ['last 2 versions'],
+        cascade: false,
+        remove: false
+      }),
+      flexfixes(),
+      cssnano()
+    ]))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(PATHS.dist.css));
+});
+```
+
+## JavaScript concatenation and minification
+
+We are going to use [gulp-concat](https://www.npmjs.com/package/gulp-concat) to
+squish together all our JS files, and
+[gulp-uglify](https://www.npmjs.com/package/gulp-uglify) for minification.
+
+```
+npm install --save-dev gulp-concat gulp-uglify
+```
+
+```
+const concatjs = require('gulp-concat');
+const uglifyjs = require('gulp-uglify');
+```
+
+```
+gulp.task('js', function() {
+  return gulp.src(PATHS.src.js)
+    .pipe(sourcemaps.init())
+    .pipe(concatjs('bundle.js'))
+    .pipe(uglifyjs({ mangle: false }))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(PATHS.dist.js));
+});
+
+gulp.task('build', ['copy-files', 'scss', 'js']);
+```
+
+This gets all our own JS sorted, but our project has a dependency of jQuery, so
+we'll need to pull that in too.
+
+```
+npm install --save-dev jquery
+```
+
+We need to modify the `gulp.src` statement to take an array of locations rather
+than just our local JS folder (note we get the unminified version as we minify
+ourselves):
+
+```
+return gulp.src([
+    'gulp-example/node_modules/jquery/dist/jquery.js',
+    PATHS.src.js
+  ])
+```
+
+## Adding a watch process
+
+At the bottom of the gulpfile:
+
+```
+gulp.task('watch', () => {
+  gulp.watch(PATHS.src.root, ['build']);
+});
+
+gulp.task('default', ['build', 'watch']);
+```
+
+In the `package.json` scripts:
+
+```
+"start": "./node_modules/.bin/gulp"
+```
+
+In a terminal:
+
+```
+npm start
+```
+
+You can leave that running and as you save changes within the `src` folder, the
+project will rebuild.
+
+## Adding Bootstrap
+
+### Integrating Bootstrap
+
+_(Obviously, if you didn't want to integrate Bootstrap you'd not do this bit!)_
+
+We can use `gulp-sass` to import the SCSS root file for Bootstrap.
+
+Install Bootstrap (check the [downloads
+page](https://v4-alpha.getbootstrap.com/getting-started/download/#npm) to check
+you're getting the most up to date version):
+
+```
+npm install --save-dev bootstrap@4.0.0-alpha.6
+```
+
+In your gulpfile's scss task, alter the sass() function with a new config
+object:
+
+```
+.pipe(sass({
+    includePaths: [
+      './node_modules/bootstrap/scss/'
+    ]
+  })
+  .on('error', sass.logError)
+)
+```
+
+In your `main.scss` file, add:
+
+```
+@import 'bootstrap';
+```
+
+> If we wanted to use Bootstrap's JS file, you'd import it into the `js` task in
+the same way that we did for the jQuery dep.
+
+#### Customising Bootstrap's variables
+
+Refer to `node_modules/bootstrap/scss/_variables.scss` to see what variables can
+be customised. Make a new file in your `src/scss/` folder,
+`_custom-boostrap.scss`, and add in your variables there. Then set up your
+`main.scss` file to import the variables file: it must be imported _before_ the
+main bootstrap file (due to the way that the _!default_ declaration works):
+
+```
+@import 'custom-bootstrap';
+@import 'bootstrap';
+```
+
+We can add a rule to make our primary colour green not blue in our
+`_custom-bootstrap.scss`:
+
+```
+$body-bg: #cef1ff;
+```
+
 # Webpack
 
 Usually, you'll be starting from an example Webpack configuration rather than

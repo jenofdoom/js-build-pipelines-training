@@ -1,0 +1,25 @@
+{
+  "name": "example-gulp-build",
+  "version": "1.0.0",
+  "description": "Tutorial for gulp",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jenofdoom/js-build-pipelines-training.git"
+  },
+  "keywords": [
+    "training",
+    "gulp",
+    "introduction"
+  ],
+  "author": "Jen Zajac",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jenofdoom/js-build-pipelines-training/issues"
+  },
+  "homepage": "https://github.com/jenofdoom/js-build-pipelines-training#readme",
+  "private": true
+}
