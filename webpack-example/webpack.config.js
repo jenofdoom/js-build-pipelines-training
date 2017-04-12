@@ -33,6 +33,7 @@ const config = {
       },
       {
         test: /\.scss$/,
+        exclude: /node_modules/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
@@ -57,6 +58,7 @@ const config = {
       },
       {
         test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        exclude: /node_modules/,
         loader: 'url-loader?limit=10000' // will insert a data URI if filesize < 10kb otherwise uses file-loader
       }
     ]

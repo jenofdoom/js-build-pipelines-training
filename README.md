@@ -4,9 +4,10 @@ Why do we build?
 
 * Only send the client the bits they need
 * Develop in a more powerful syntax
+* Keep 3rd party libraries out of your source tree
 * Apply transformations like minification
 
-## Dependency management
+## Dependency managements
 
 ### npm
 
@@ -14,7 +15,7 @@ Why do we build?
 * [devDependencies](http://stackoverflow.com/a/22004559/160648)
 * [src and dist](http://stackoverflow.com/a/23731040/160648)
 * [version control](https://giphy.com/gifs/git-merge-cFkiFMDg3iFoI/fullscreen) & [.gitignore](https://github.com/jenofdoom/js-build-pipelines-training/blob/master/webpack-example/.gitignore)
-* [versioning strategies](https://docs.npmjs.com/misc/semver)
+* [package versioning strategies](https://docs.npmjs.com/misc/semver)
 * [npm-check-updates](https://www.npmjs.com/package/npm-check-updates)
 * [npm shrinkwrap](https://docs.npmjs.com/cli/shrinkwrap)
 
@@ -179,8 +180,8 @@ const sass = require('gulp-sass');
 ```
 gulp.task('scss', () => {
   return gulp.src(PATHS.src.scss)
-    .pipe(nodesass()
-      .on('error', nodesass.logError)
+    .pipe(sass()
+      .on('error', sass.logError)
     )
     .pipe(gulp.dest(PATHS.dist.css));
 });
@@ -239,7 +240,7 @@ const uglifyjs = require('gulp-uglify');
 ```
 
 ```
-gulp.task('js', function() {
+gulp.task('js', () => {
   return gulp.src(PATHS.src.js)
     .pipe(sourcemaps.init())
     .pipe(concatjs('bundle.js'))
@@ -264,7 +265,7 @@ ourselves):
 
 ```
 return gulp.src([
-    'gulp-example/node_modules/jquery/dist/jquery.js',
+    './node_modules/jquery/dist/jquery.js',
     PATHS.src.js
   ])
 ```
@@ -347,7 +348,7 @@ main bootstrap file (due to the way that the _!default_ declaration works):
 @import 'bootstrap';
 ```
 
-We can add a rule to make our primary colour green not blue in our
+We can add a rule to make background colour something other than white in
 `_custom-bootstrap.scss`:
 
 ```
@@ -422,6 +423,9 @@ resolve: {
   modules: [path.resolve(__dirname, 'src'), 'node_modules']
 }
 ```
+
+> We use a absolute path so only this folder called `src` will be searched, not
+any ancestor folders that are called `src`.
 
 ## Transforming our project files with loaders
 
@@ -623,7 +627,7 @@ the build by Webpack. We need to tell Webpack how to deal with these files, by
 using the [url-loader](https://github.com/webpack-contrib/url-loader):
 
 ```
-npm install --save-dev url-loader
+npm install --save-dev url-loader file-loader
 ```
 
 In `webpack.config.js`, in the module rules, underneath our JSX rule:
@@ -631,6 +635,7 @@ In `webpack.config.js`, in the module rules, underneath our JSX rule:
 ```
 {
   test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+  exclude: /node_modules/,
   loader: 'url-loader?limit=10000'
 }
 ```
@@ -652,7 +657,7 @@ bottom of `src/components/about/about.jsx`):
 <img src={photo} />
 ```
 
-and at the top of the file:
+and at the top of the file uncomment:
 
 ```
 import photo from 'assets/img/banks-peninsula.jpg';
@@ -681,6 +686,7 @@ And in the module rules in `webpack.config.js`, below the `jsx` test:
 ```
 {
   test: /\.css$/,
+  exclude: /node_modules/,
   use: ['style-loader', 'css-loader']
 },
 ```
@@ -718,13 +724,14 @@ We use the [sass-loader](https://github.com/webpack-contrib/sass-loader) to
 transform our `.scss` files:
 
 ```
-npm install --save-dev sass-loader
+npm install --save-dev sass-loader node-sass
 ```
 
 In the module rules in `webpack.config.js`, alter the `css` test:
 
 ```
 test: /\.scss$/,
+exclude: /node_modules/,
 use: [
   'style-loader',
   'css-loader',
@@ -789,7 +796,7 @@ you're getting the most up to date version):
 npm install --save-dev bootstrap@4.0.0-alpha.6
 ```
 
-In your main `.scss` file, add:
+In your main `.scss` file, uncomment:
 
 ```
 @import "~bootstrap/scss/bootstrap";
@@ -801,10 +808,11 @@ from the `node_modules` folder.
 ##### Customising Bootstrap's variables
 
 Refer to `node_modules/bootstrap/scss/_variables.scss` to see what variables can
-be customised. Make a new file in your `src/base-styles/` folder,
-`_custom-boostrap.scss`, and add in your variables there. Then set up your main
-`.scss` file to import the variables file: it must be imported _before_ the main
-bootstrap file (due to the way that the _!default_ declaration works):
+be customised. We can use the already set up
+`src/base-styles/_custom-boostrap.scss`, and add in your variables there. Then
+set up your main `.scss` file to import the variables file: it must be imported
+_before_ the main bootstrap file (due to the way that the _!default_ declaration
+works):
 
 ```
 @import "base-styles/custom-bootstrap";
@@ -920,8 +928,11 @@ change is the rather misleadingly-named `devtool`.
 In `webpack.config.js`, in the config object:
 
 ```
-devtool: process.env.npm_lifecycle_event === 'build' ? 'cheap-module-source-map' : 'cheap-module-eval-source-map',
+devtool: process.env.npm_lifecycle_event === 'build' ? 'cheap-module-source-map' 
+: 'cheap-module-eval-source-map',
 ```
+
+> The above should all be on one line
 
 `.map` files should now be output by the build.
 
