@@ -1,0 +1,10 @@
+[
+  {
+    "path" : "node_modules/webpack-dev-server",
+    "justification" : "Only used in dev. This avoids the reporting of some minor jQuery issues."
+  },
+  {
+    "path" : "node_modules/tether",
+    "justification" : "Only used in dev (by webpack-dev-server). This avoids the reporting of some minor jQuery issues."
+  }
+]
