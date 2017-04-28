@@ -22,6 +22,54 @@ Why do we build?
 Note there is an up-and-coming new dep mananagment layer on top of npm/replacing
 npm coming - [yarn](https://yarnpkg.com/en/).
 
+## Security
+
+It's good to both get advised on when particular of your packages have security
+issues, and also to keep up to date with the latest versions of your
+dependencies (although you'll need to manually vet if an upgrade has breaking
+changes to your application, usually by looking at their release log - hopefully
+you have automated tests to help detect regressions). We can add some tooling to
+assist us manage our project dependencies.
+
+In a terminal, in your project folder:
+
+```
+npm install --save-dev npm-check-updates retire
+```
+
+In the scripts object in `package.json`:
+
+```
+"deps:check": "./node_modules/.bin/npm-check-updates && ./node_modules/.bin/retire",
+"deps:update": "./node_modules/.bin/npm-check-updates -u && ./node_modules/.bin/npm-check-updates -a && npm install && ./node_modules/.bin/retire"
+```
+
+`npm run deps:check` will inform you if particular of your packages are now out
+of date, or have security warnings published.
+
+`npm run deps:update` will automatically update your `package.json` file to the
+latest versions (you want to be more judicious about running this command,
+particularly for established projects), install those updates, and rerun the
+security check to see if any of those new versions have issues and/or is
+upgrading resolved issues you had previously.
+
+If there are packages that `retire` indicates have security issues but you have
+determined that those security issues don't affect you, you can create a
+`retireignore.json` file in your project root which documents exceptions. E.g.:
+
+```
+[
+  {
+    "path" : "node_modules/webpack-dev-server",
+    "justification" : "Only used in dev. This avoids the reporting of some minor jQuery issues."
+  },
+  {
+    "path" : "node_modules/tether",
+    "justification" : "Only used in dev (by webpack-dev-server). This avoids the reporting of some minor jQuery issues."
+  }
+]
+```
+
 ## Integrating with other build pipelines
 
 Your frontend build pipeline should limit itself to just the frontend build. If
@@ -1027,3 +1075,4 @@ that although the bundle still recompiles automatically (when using the dev
 server), the webpage will no longer refresh automatically on style changes. For
 the reason you might want to consider reserving ExtractTextPlugin for your
 production builds only.
+
