@@ -91,7 +91,7 @@ __Gulp__ for simple `.scss` and jQuery projects.
 
 __Webpack__ for more complex projects using JS modules and ES6.
 
-## Getting started 
+## Getting started
 
 If you have your own github account already, you might prefer to fork this
 repository and clone that instead. If you don't just run the following commands
@@ -150,7 +150,7 @@ const gulp = require('gulp');
 
 gulp.task('copy-files', () => {   
   return gulp.src('./src/**')
-    .pipe(gulp.dest('./dist/')); 
+    .pipe(gulp.dest('./dist/'));
 });
 
 gulp.task('build', ['copy-files']);
@@ -196,7 +196,7 @@ const PATHS = {
 
 gulp.task('copy-files', () => {   
   return gulp.src(PATHS.src.root)
-    .pipe(gulp.dest(PATHS.dist.root)); 
+    .pipe(gulp.dest(PATHS.dist.root));
 });
 ```
 
@@ -747,7 +747,7 @@ File paths in the CSS (for background images) will use the same `url-loader`
 process as images, although note that they are relative to the entry point (if
 you want to do imports relative to the `.scss` file, look at
 [resolve-url-loader](https://github.com/bholloway/resolve-url-loader)). So we
-can now add a background image in the styling for the body tag in 
+can now add a background image in the styling for the body tag in
 
 ```
 background: url(assets/img/crossword.png);
@@ -858,13 +858,11 @@ from the `node_modules` folder.
 Refer to `node_modules/bootstrap/scss/_variables.scss` to see what variables can
 be customised. We can use the already set up
 `src/base-styles/_custom-boostrap.scss`, and add in your variables there. Then
-set up your main `.scss` file to import the variables file: it must be imported
-_before_ the main bootstrap file (due to the way that the _!default_ declaration
-works):
+set up your `base-styles/_variables.scss` file to import the default Bootstrap
+variables file (just uncomment the exisiting line):
 
 ```
-@import "base-styles/custom-bootstrap";
-@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/variables";  // bootstrap variables
 ```
 
 We can add a rule to make our primary colour green not blue in our
@@ -976,7 +974,7 @@ change is the rather misleadingly-named `devtool`.
 In `webpack.config.js`, in the config object:
 
 ```
-devtool: process.env.npm_lifecycle_event === 'build' ? 'cheap-module-source-map' 
+devtool: process.env.npm_lifecycle_event === 'build' ? 'cheap-module-source-map'
 : 'cheap-module-eval-source-map',
 ```
 
@@ -1075,4 +1073,3 @@ that although the bundle still recompiles automatically (when using the dev
 server), the webpage will no longer refresh automatically on style changes. For
 the reason you might want to consider reserving ExtractTextPlugin for your
 production builds only.
-
