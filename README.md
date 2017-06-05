@@ -55,7 +55,7 @@ upgrading resolved issues you had previously.
 
 If there are packages that `retire` indicates have security issues but you have
 determined that those security issues don't affect you, you can create a
-`retireignore.json` file in your project root which documents exceptions. E.g.:
+`.retireignore.json` file in your project root which documents exceptions. E.g.:
 
 ```
 [
