@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
-    var url = "https://www.govt.nz/api/v2/consultation/list";
+    // var url = "https://www.govt.nz/api/v2/consultation/list";
+    var url = "list.json";
 
     $.getJSON(
         url,

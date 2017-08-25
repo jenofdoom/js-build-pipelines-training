@@ -1,0 +1,374 @@
+{
+    "query": {
+        "offset": 0,
+        "count": 20,
+        "total": 2105
+    },
+    "consultations": [
+        {
+            "id": 1,
+            "title": "Proposals for regulations under the Food Act 2014",
+            "description": "<p>The consultation on the proposals for regulations under the Food Act 2014 is now open with interested people and organisations invited to provide submissions.<\/p>\n<p>\u00a0<\/p>",
+            "organisation": [
+                {
+                    "id": 929,
+                    "name": "Ministry for Primary Industries"
+                }
+            ],
+            "url": "http:\/\/www.mpi.govt.nz\/news-and-resources\/consultations\/proposals-for-regulations-under-the-food-act-2014\/",
+            "start": "2015-02-20T00:00:00+12:00",
+            "end": "2015-03-31T17:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Food safety and biosecurity"
+            ]
+        },
+        {
+            "id": 2,
+            "title": "Proposed new Animal Products Specifications for Laboratories Notice",
+            "description": "<p>MPI invites public comment on a new draft Specifications for Laboratories Notice for the Dairy, LAS and ELP laboratory programmes.<\/p>",
+            "organisation": [
+                {
+                    "id": 929,
+                    "name": "Ministry for Primary Industries"
+                }
+            ],
+            "url": "http:\/\/www.mpi.govt.nz\/news-and-resources\/consultations\/proposed-new-animal-products-specifications-for-laboratories-notice\/",
+            "start": "2015-02-20T00:00:00+12:00",
+            "end": "2015-02-27T17:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Food safety and biosecurity"
+            ]
+        },
+        {
+            "id": 4,
+            "title": "Proposed Revisions to the Cost Recovery Regimes for Biosecurity and Food Safety",
+            "description": "<p>MPI is looking for feedback on a series of proposals for changing the way MPI recovers costs in order to provide essential food safety and biosecurity services.<\/p>",
+            "organisation": [
+                {
+                    "id": 929,
+                    "name": "Ministry for Primary Industries"
+                }
+            ],
+            "url": "http:\/\/www.mpi.govt.nz\/news-and-resources\/consultations\/proposed-revisions-to-the-cost-recovery-regimes-for-biosecurity-and-food-safety\/",
+            "start": "2015-02-20T00:00:00+12:00",
+            "end": "2015-02-20T17:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Food safety and biosecurity"
+            ]
+        },
+        {
+            "id": 5,
+            "title": "Review of fisheries sustainability measures for 1 April 2015",
+            "description": "<p>MPI seeks feedback from tangata whenua and stakeholders on proposals to review sustainability measures for selected fish stocks for the 2015-16 fishing year.<\/p>",
+            "organisation": [
+                {
+                    "id": 929,
+                    "name": "Ministry for Primary Industries"
+                }
+            ],
+            "url": "http:\/\/www.mpi.govt.nz\/news-and-resources\/consultations\/fisheries-sustainability-measures-1-april-2015\/",
+            "start": "2015-01-20T00:00:00+12:00",
+            "end": "2015-02-17T17:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Fisheries"
+            ]
+        },
+        {
+            "id": 6,
+            "title": "Amend the allowance for the\u00a0Upper South Island Grid Upgrade Stage 1 project.",
+            "description": "<p>On the 27 August 2014 Transpower submitted a proposal to the Commission to amend the allowance for the\u00a0Upper South Island Grid Upgrade Stage 1 project.<\/p>",
+            "organisation": [
+                {
+                    "id": 1114,
+                    "name": "Commerce Commission"
+                }
+            ],
+            "url": "http:\/\/www.comcom.govt.nz\/regulated-industries\/electricity\/electricity-transmission\/transpower-major-capital-proposal\/amending-the-allowance-and-outputs-for-the-upper-south-island-stage-1-project\/",
+            "start": "2015-02-20T00:00:00+12:00",
+            "end": "2015-02-26T17:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Electricity"
+            ]
+        },
+        {
+            "id": 7,
+            "title": "Amendments to information disclosure Requirements 2015",
+            "description": "<p>The Commission is considering amending the information disclosure determinations for electricity distribution and gas pipeline businesses to address identified issues for the 2015 disclosures for electricity distribution and gas pipeline services.<\/p>",
+            "organisation": [
+                {
+                    "id": 1114,
+                    "name": "Commerce Commission"
+                }
+            ],
+            "url": "http:\/\/www.comcom.govt.nz\/regulated-industries\/electricity\/electricity-information-disclosure\/amendments-to-information-disclosure-requirements-2015\/",
+            "start": "2015-02-20T00:00:00+12:00",
+            "end": "2015-02-23T17:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Electricity"
+            ]
+        },
+        {
+            "id": 8,
+            "title": "Amending the allowance and outputs for the North Island Grid Upgrade Project",
+            "description": "<p>We have received an application from Transpower to increase its approved allowance and amend three minor outputs for the North Island Grid Upgrade Project. If we decide to amend the allowance, Transpower will be able to recover some, or all, costs incurred above the original amount approved. We will evaluate Transpower\u2019s application and make a decision that is in the long-term benefit of consumers.<\/p>\n<p>\u00a0<\/p>",
+            "organisation": [
+                {
+                    "id": 1114,
+                    "name": "Commerce Commission"
+                }
+            ],
+            "url": "http:\/\/www.comcom.govt.nz\/regulated-industries\/electricity\/electricity-transmission\/transpower-major-capital-proposal\/amending-the-allowance-and-outputs-for-the-north-island-grid-upgrade-project\/",
+            "start": "2015-02-20T00:00:00+12:00",
+            "end": "2015-04-23T17:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Electricity"
+            ]
+        },
+        {
+            "id": 9,
+            "title": "Unbundled Copper Local Loop and Unbundled Bitstream Access services final pricing principle",
+            "description": "<p>The Commission's final pricing principle price review for the Unbundled Copper Local Loop (UCLL) service and the Unbundled Bitstream Access (UBA) services.<\/p>",
+            "organisation": [
+                {
+                    "id": 1114,
+                    "name": "Commerce Commission"
+                }
+            ],
+            "url": "http:\/\/www.comcom.govt.nz\/regulated-industries\/telecommunications\/regulated-services\/standard-terms-determinations\/unbundled-copper-local-loop-and-unbundled-bitstream-access-services-final-pricing-principle\/",
+            "start": "2015-02-20T00:00:00+12:00",
+            "end": "2015-02-20T17:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Telecommunications"
+            ]
+        },
+        {
+            "id": 10,
+            "title": "Proposal to dispose of conservation land at Waimunga",
+            "description": "<p>You are invited to give feedback on a proposal to dispose of approximately 31 ha of conservation land at Waimunga on the Greymouth to Reefton highway near Reefton.<\/p>\n<p>\u00a0<\/p>",
+            "organisation": [
+                {
+                    "id": 920,
+                    "name": "Department of Conservation"
+                }
+            ],
+            "url": "http:\/\/www.doc.govt.nz\/getting-involved\/consultations\/all-consultations\/2015\/proposal-to-dispose-of-conservation-land-at-waimunga\/",
+            "start": "2015-02-20T00:00:00+12:00",
+            "end": "2015-03-30T16:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Land and property"
+            ]
+        },
+        {
+            "id": 11,
+            "title": "Intention to grant a lease concession to Great Barrier Island Community Health Trust",
+            "description": "<p>The Minister of Conservation gives notice of his intention to grant a 30 year concession under section 17Q of the Conservation Act 1987 to The Great Barrier Island Community Health Trust for a lease of the Nurses Cottage Great Barrier Island for the provision of Health Services.<\/p>\n<p>\u00a0<\/p>",
+            "organisation": [
+                {
+                    "id": 920,
+                    "name": "Department of Conservation"
+                }
+            ],
+            "url": "http:\/\/www.doc.govt.nz\/getting-involved\/consultations\/all-consultations\/2014\/intention-to-grant-a-lease-concession-to-great-barrier-island-community-health-trust\/",
+            "start": "2015-02-20T00:00:00+12:00",
+            "end": "2015-03-18T17:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Land and property"
+            ]
+        },
+        {
+            "id": 12,
+            "title": "Ruahine Conservation Park - change of status",
+            "description": "<p>The Department of Conservation is calling for public submissions over a proposal to revoke part of Ruahine Conservation Park to enable a land exchange application to be considered.\u00a0<\/p>\n<p>\u00a0<\/p>",
+            "organisation": [
+                {
+                    "id": 920,
+                    "name": "Department of Conservation"
+                }
+            ],
+            "url": "http:\/\/www.doc.govt.nz\/getting-involved\/consultations\/all-consultations\/2014\/ruahine-conservation-park-change-of-status\/",
+            "start": "2015-02-20T00:00:00+12:00",
+            "end": "2015-03-03T17:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Land and property"
+            ]
+        },
+        {
+            "id": 13,
+            "title": "Intention to grant a licence for a hazard monitoring station ",
+            "description": "<p>Intention to grant a licence for a hazard monitoring station - Mount Mason in the Otira-Kopara Forest<\/p>",
+            "organisation": [
+                {
+                    "id": 920,
+                    "name": "Department of Conservation"
+                }
+            ],
+            "url": "http:\/\/www.doc.govt.nz\/getting-involved\/consultations\/all-consultations\/2014\/intention-to-grant-a-licence-for-a-hazard-monitoring-station-in-the-otira-kopara-forest\/",
+            "start": "2015-02-20T00:00:00+12:00",
+            "end": "2015-02-26T17:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Land and property"
+            ]
+        },
+        {
+            "id": 14,
+            "title": "Intention to grant concession to operate a caf\u00e9\/restaurant at Marahau",
+            "description": "<p>Intention to grant concession to operate a caf\u00e9\/restaurant at 350 Sandy Bay-Marahau Road, Marahau<\/p>",
+            "organisation": [
+                {
+                    "id": 920,
+                    "name": "Department of Conservation"
+                }
+            ],
+            "url": "http:\/\/www.doc.govt.nz\/getting-involved\/consultations\/all-consultations\/2014\/intention-to-grant-concession-to-operate-a-cafe-restaurant-at-marahau\/",
+            "start": "2015-02-20T00:00:00+12:00",
+            "end": "2015-02-20T17:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Land and property"
+            ]
+        },
+        {
+            "id": 15,
+            "title": "Fifth Periodic Report for UNCROC",
+            "description": "<p>We want to hear your views on New Zealand\u2019s Fifth Periodic Report to the United Nations Committee on the Rights of the Child<\/p>",
+            "organisation": [
+                {
+                    "id": 922,
+                    "name": "Department of Internal Affairs"
+                }
+            ],
+            "url": "http:\/\/ethnicaffairs.govt.nz\/story\/we-want-hear-your-views-new-zealand%E2%80%99s-fifth-periodic-report-united-nations-committee-rights-ch",
+            "start": "2015-02-20T00:00:00+12:00",
+            "end": "2015-02-27T17:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Human rights"
+            ]
+        },
+        {
+            "id": 16,
+            "title": "Proposal for local government reorganisation in the Wellington region.",
+            "description": "<p>The Commission wants to hear the views of the wider region and encourage people to participate. That means ratepayers, residents, community organisations, iwi and businesses, as well as the affected councils. The public submission process is a valuable part of the Commission\u2019s engagement with the region.<\/p>\n<p>\u00a0<\/p>",
+            "organisation": [
+                {
+                    "id": 922,
+                    "name": "Department of Internal Affairs"
+                },
+                {
+                    "id": 922,
+                    "name": "Department of Internal Affairs"
+                }
+            ],
+            "url": "http:\/\/lgc.govt.nz\/commission-news-and-contact-information\/media-statements-and-speeches\/public-submissions-encouraged\/",
+            "start": "2015-02-20T00:00:00+12:00",
+            "end": "2015-03-02T17:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Local government - Wellington",
+                "Reorganisation"
+            ]
+        },
+        {
+            "id": 17,
+            "title": "Proposed amendment to the HHR switching process for AMI switch event meter readings",
+            "description": "<p>The Authority is consulting on a draft Code amendment for the use of AMI meter readings in the ICP switching process.<\/p>",
+            "organisation": [
+                {
+                    "id": 1117,
+                    "name": "Electricity Authority"
+                }
+            ],
+            "url": "http:\/\/www.ea.govt.nz\/development\/work-programme\/retail\/switch-re-engineering\/consultations\/#c14455",
+            "start": "2015-02-20T00:00:00+12:00",
+            "end": "2015-02-24T17:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Electricity"
+            ]
+        },
+        {
+            "id": 18,
+            "title": "The release of biological control for weed privet\u00a0",
+            "description": "<p>Public submissions are invited on an application to release privet lace bug as a biological control agent for the weed privet.<\/p>\n<p>\u00a0<\/p>",
+            "organisation": [
+                {
+                    "id": 1087,
+                    "name": "Environmental Protection Authority"
+                }
+            ],
+            "url": "http:\/\/www.epa.govt.nz\/consultations\/new-organisms\/Pages\/application--biological-control-weed-privet-APP202262.aspx",
+            "start": "2015-02-20T00:00:00+12:00",
+            "end": "2015-03-04T17:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Pest control"
+            ]
+        },
+        {
+            "id": 19,
+            "title": "Prolectus fungicide application\u00a0",
+            "description": "<p>The EPA is calling for submissions on an application for the fungicide Prolectus. The application, from Sumitomo Chemical Australia, is to import Prolectus for use on commercial grape crops to treat grape mold and other fungal conditions.<\/p>",
+            "organisation": [
+                {
+                    "id": 1087,
+                    "name": "Environmental Protection Authority"
+                }
+            ],
+            "url": "http:\/\/www.epa.govt.nz\/consultations\/hazardous-substances\/Pages\/Prolectus-fungicide-application-APP202213-.aspx",
+            "start": "2015-02-20T00:00:00+12:00",
+            "end": "2015-02-25T17:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Pest control"
+            ]
+        },
+        {
+            "id": 20,
+            "title": "Notices consultation documents",
+            "description": "<p>The HSNO Act is being amended to improve its workability and make it easier for people to know what their obligations are with hazardous substances. Part of this reform is the development of EPA Notices.<\/p>",
+            "organisation": [
+                {
+                    "id": 1087,
+                    "name": "Environmental Protection Authority"
+                }
+            ],
+            "url": "http:\/\/www.epa.govt.nz\/consultations\/hazardous-substances\/Pages\/notices-consultation-documents.aspx",
+            "start": "2015-02-20T00:00:00+12:00",
+            "end": "2015-02-20T17:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Hazardous substances"
+            ]
+        },
+        {
+            "id": 22,
+            "title": "Public Benefit Entity Consultation on ED NZASB 2015-2\u00a02015 Omnibus Amendments to PBE Standards",
+            "description": "<p>The New Zealand Accounting Standards Board (NZASB) has published for public comment ED NZASB 2015-2\u00a02015 Omnibus Amendments to PBE Standards\u00a0(ED NZASB 2015-2)<\/p>\n<p>\u00a0<\/p>",
+            "organisation": [
+                {
+                    "id": 1118,
+                    "name": "External Reporting Board"
+                }
+            ],
+            "url": "http:\/\/xrb.govt.nz\/Site\/Accounting_Standards\/Exposure_Drafts\/Dom_ED_2015-2.aspx",
+            "start": "2015-02-20T00:00:00+12:00",
+            "end": "2015-05-15T17:00:00+12:00",
+            "status": "past",
+            "topic": [
+                "Standards"
+            ]
+        }
+    ]
+}
