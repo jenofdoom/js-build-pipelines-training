@@ -354,11 +354,11 @@ _(Obviously, if you didn't want to integrate Bootstrap you'd not do this bit!)_
 We can use `gulp-sass` to import the SCSS root file for Bootstrap.
 
 Install Bootstrap (check the [downloads
-page](https://v4-alpha.getbootstrap.com/getting-started/download/#npm) to check
+page](https://getbootstrap.com/docs/4.0/getting-started/download/#npm) to check
 you're getting the most up to date version):
 
 ```
-npm install --save-dev bootstrap@4.0.0-alpha.6
+npm install --save-dev bootstrap@4.0.0-beta
 ```
 
 In your gulpfile's scss task, alter the sass() function with a new config
@@ -837,11 +837,11 @@ _(Obviously, if you didn't want to integrate Bootstrap you'd not do this bit!)_
 We can use `sass-loader` to import the SCSS root file for Bootstrap.
 
 Install Bootstrap (check the [downloads
-page](https://v4-alpha.getbootstrap.com/getting-started/download/#npm) to check
+page](https://getbootstrap.com/docs/4.0/getting-started/download/#npm) to check
 you're getting the most up to date version):
 
 ```
-npm install --save-dev bootstrap@4.0.0-alpha.6
+npm install --save-dev bootstrap@4.0.0-beta
 ```
 
 In your main `.scss` file, uncomment:
