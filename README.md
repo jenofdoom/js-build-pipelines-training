@@ -7,7 +7,7 @@ Why do we build?
 * Keep 3rd party libraries out of your source tree
 * Apply transformations like minification
 
-## Dependency managements
+## Dependency management
 
 ### npm
 
@@ -410,10 +410,10 @@ building all of this out from scratch, but my aim here is to teach you from
 scratch so you'll know what all of the parts of the config file are doing in
 case you need to tweak them.
 
-Note that we're using version 2 of Webpack ([docs
-here](https://webpack.js.org/concepts/)), not version 1 - if you're later
-looking up tutorials etc. make sure you're looking at the right version, the
-syntax differs.
+Note that we're using version 3 of Webpack ([docs
+here](https://webpack.js.org/concepts/)), not version 1 (2 is quite similar to 3)
+- if you're later looking up tutorials etc. make sure you're looking at the right 
+version, the syntax differs.
 
 In our example project folder `webpack-tutorial`, first run `npm install` by
 itself to get the already-specified project dependencies. Then:
