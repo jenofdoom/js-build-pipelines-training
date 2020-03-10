@@ -492,16 +492,14 @@ convert jsx to js too. Create a file called `.babelrc` at the project root:
 ```
 {
   "presets": [
-    "react",
     [
-      "env",
+      "@babel/preset-env",
       {
-        "targets": {
-          "uglify": true
-        },
+        "forceAllTransforms": true,
         "modules": false
       }
-    ]
+    ],
+    "@babel/preset-react"
   ]
 }
 ```
