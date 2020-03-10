@@ -22,12 +22,13 @@
   },
   "homepage": "https://github.com/jenofdoom/js-build-pipelines-training#readme",
   "private": true,
-  "devDependencies": {
-    "clipboard": "~1.6.1",
-    "prop-types": "~15.5.8",
-    "react": "~15.5.4",
-    "react-dom": "~15.5.4",
-    "react-router-dom": "~4.1.1",
-    "react-scroll-up": "~1.2.2"
-  }
+  "dependencies": {
+    "clipboard": "^2.0.6",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-router-dom": "^5.1.2",
+    "react-scroll-up": "^1.3.3"
+  },
+  "devDependencies": {}
 }

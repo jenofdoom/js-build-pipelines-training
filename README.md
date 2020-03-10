@@ -31,44 +31,22 @@ changes to your application, usually by looking at their release log - hopefully
 you have automated tests to help detect regressions). We can add some tooling to
 assist us manage our project dependencies.
 
-In a terminal, in your project folder:
-
-```
-npm install --save-dev npm-check-updates retire
-```
-
 In the scripts object in `package.json`:
 
 ```
-"deps:check": "./node_modules/.bin/npm-check-updates && ./node_modules/.bin/retire",
-"deps:update": "./node_modules/.bin/npm-check-updates -u && ./node_modules/.bin/npm-check-updates -a && npm install && ./node_modules/.bin/retire"
+"deps:check": "npx npm-check-updates",
+"deps:update": "npx npm-check-updates -- -u && npx npm-check-updates -- -a && npm install"
 ```
 
 `npm run deps:check` will inform you if particular of your packages are now out
-of date, or have security warnings published.
+of date.
 
 `npm run deps:update` will automatically update your `package.json` file to the
 latest versions (you want to be more judicious about running this command,
-particularly for established projects), install those updates, and rerun the
-security check to see if any of those new versions have issues and/or is
-upgrading resolved issues you had previously.
+particularly for established projects), install those updates.
 
-If there are packages that `retire` indicates have security issues but you have
-determined that those security issues don't affect you, you can create a
-`.retireignore.json` file in your project root which documents exceptions. E.g.:
-
-```
-[
-  {
-    "path" : "node_modules/webpack-dev-server",
-    "justification" : "Only used in dev. This avoids the reporting of some minor jQuery issues."
-  },
-  {
-    "path" : "node_modules/tether",
-    "justification" : "Only used in dev (by webpack-dev-server). This avoids the reporting of some minor jQuery issues."
-  }
-]
-```
+npm has a built in security checker that will warn you whenever you run `npm
+install` if you have outstanding security vulnerabilities.
 
 ## Integrating with other build pipelines
 
@@ -358,7 +336,7 @@ page](https://getbootstrap.com/docs/4.0/getting-started/download/#npm) to check
 you're getting the most up to date version):
 
 ```
-npm install --save-dev bootstrap@4.0.0-beta
+npm install bootstrap
 ```
 
 In your gulpfile's scss task, alter the sass() function with a new config
@@ -410,16 +388,15 @@ building all of this out from scratch, but my aim here is to teach you from
 scratch so you'll know what all of the parts of the config file are doing in
 case you need to tweak them.
 
-Note that we're using version 3 of Webpack ([docs
-here](https://webpack.js.org/concepts/)), not version 1 (2 is quite similar to 3)
-- if you're later looking up tutorials etc. make sure you're looking at the right 
-version, the syntax differs.
+Note that we're using version 4 of Webpack ([docs
+here](https://webpack.js.org/concepts/)) - if you're later looking up tutorials
+etc. make sure you're looking at the right  version, the syntax differs.
 
 In our example project folder `webpack-tutorial`, first run `npm install` by
 itself to get the already-specified project dependencies. Then:
 
 ```
-npm install --save-dev webpack
+npm install --save-dev webpack webpack-cli
 ```
 
 > (From this point on, assume any `npm install` instructions should be carried
@@ -491,9 +468,9 @@ _loaders_ in order to be able to also process:
 We use [Babel](http://babeljs.io/) to transpile our modern JS (es6) to JS that
 is supported across all browsers.
 
-`npm install --save-dev babel-loader babel-core babel-preset-env babel-preset-react`
+`npm install --save-dev babel-loader @babel/core @babel/preset-env @babel/preset-react`
 
-Note that you only need `babel-preset-react` for React projects.
+Note that you only need `@babel/preset-react` for React projects.
 
 ```
 module: {
@@ -652,19 +629,19 @@ app, so for example `entry: './src/index.jsx'` might become `entry:
 polyfill package.
 
 For more general polyfills, look at
-[babel-polyfill](https://babeljs.io/docs/usage/polyfill/) which pulls in
+[@babel/polyfill]https://www.npmjs.com/package/@babel/polyfill) which pulls in
 [core-js](https://github.com/zloirock/core-js). Right now our project uses
 `Object.values()` in the search functionality, which is not yet supported in
 older browsers - we can fix this:
 
 ```
-npm install --save-dev babel-polyfill
+npm install --save-dev @babel/polyfill
 ```
 
 In `webpack.config.js`, change the entry point to an array:
 
 ```
-entry: ['babel-polyfill', './src/index.jsx'],
+entry: ['@babel/polyfill', './src/index.jsx'],
 ```
 
 ### Images and other files
@@ -786,7 +763,9 @@ use: [
   {
     loader: 'sass-loader',
     options: {
-      includePaths: [path.resolve(__dirname, 'src')]
+      sassOptions: {
+        includePaths: [path.resolve(__dirname, 'src')]
+      }
     }
   }
 ]
@@ -823,11 +802,19 @@ Inside the `use` object in the `scss` test, after `css-loader` and before
   loader: 'postcss-loader',
   options: {
     plugins: [
-      autoprefixer({browsers: ['last 2 versions']}),
+      autoprefixer(),
       flexfixes()
     ]
   }
 },
+```
+
+In `package.json`, add:
+
+```
+"browserslist": [
+  "last 2 versions"
+],
 ```
 
 #### Integrating Bootstrap
@@ -847,6 +834,7 @@ npm install --save-dev bootstrap@4.0.0-beta
 In your main `.scss` file, uncomment:
 
 ```
+@import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/bootstrap";
 ```
 
@@ -915,6 +903,16 @@ to change line 6 from `"extends": "eslint:recommended",` to:
 ],
 ```
 
+We might also need to add some extra settings for the react plugin:
+
+```
+"settings": {
+    "react": {
+        "version": "detect"
+    }
+}
+```
+
 > Optional: there are a bunch of other configurations you can make, for example
 I prefer the `"no-console"` check to "warn" rather than "error". See the [rules
 list](http://eslint.org/docs/rules/) for more information.
@@ -960,9 +958,9 @@ performance profiling. Webpack has [many different
 schema](https://webpack.js.org/configuration/devtool/) for generating source
 maps, some of which are better for dev than prod.
 
-I recommend `cheap-module-source-map` for production and
+I recommend `source-map` for production and
 `cheap-module-eval-source-map` for development (based on [this
-advice](http://cheng.logdown.com/posts/2016/03/25/679045)).
+advice](http://cheng.logdown.com/posts/2016/03/25/679045) and some testing).
 
 There is a variable available at run time that contains the name of the npm
 script (as defined in `package.json`) that invoked webpack, called
@@ -991,24 +989,26 @@ I don't recommend it.
 ### Separate CSS assets to avoid FOUC
 
 In order to avoid flash of unstyled content, we should use the
-[ExtractTextPlugin](https://github.com/webpack-contrib/extract-text-webpack-plugin)
+[mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin)
 to split all the compiled CSS out into a proper old-fashioned CSS file. It's
 fine for this to be in place for our development builds too.
 
 ```
-npm install --save-dev extract-text-webpack-plugin
+npm install --save-dev mini-css-extract-plugin
 ```
 
 At the top of `webpack.config.js`:
 
 ```
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 ```
 
 In the plugins array:
 
 ```
-new ExtractTextPlugin('bundle.css')
+new MiniCssExtractPlugin({
+  filename: 'bundle.css'
+})
 ```
 
 In our module rules, we need to replace the exisiting `.scss` test with one that
@@ -1032,7 +1032,9 @@ is wrapped with ExtractTextPlugin. So our exisiting rule:
     {
       loader: 'sass-loader',
       options: {
-        includePaths: [path.resolve(__dirname, 'src')]
+        sassOptions: {
+          includePaths: [path.resolve(__dirname, 'src')]
+        }
       }
     }
   ]
@@ -1044,27 +1046,27 @@ becomes:
 ```
 {
   test: /\.scss$/,
-  use: ExtractTextPlugin.extract({
-    fallback: 'style-loader',
-    use: [
-      'css-loader',
-      {
-        loader: 'postcss-loader',
-        options: {
+  use: [
+    MiniCssExtractPlugin.loader,
+    'css-loader',
+    {
+      loader: 'postcss-loader',
+      options: {
           plugins: [
             autoprefixer({browsers: ['last 2 versions']}),
             flexfixes()
           ]
-        }
-      },
-      {
-        loader: 'sass-loader',
-        options: {
-          includePaths: [path.resolve(__dirname, 'src')]
-        }
       }
-    ]
-  })
+    },
+    {
+      loader: 'sass-loader',
+      options: {
+        sassOptions: {
+            includePaths: [path.resolve(__dirname, 'src')]
+          }
+        }
+     }
+  ]
 },
 ```
 

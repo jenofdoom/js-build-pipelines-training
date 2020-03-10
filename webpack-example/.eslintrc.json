@@ -36,5 +36,10 @@
         ],
         "no-console": ["warn"],
         "no-unused-vars": ["warn"]
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
     }
 }

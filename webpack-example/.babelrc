@@ -1,14 +1,12 @@
 {
   "presets": [
-    "react",
     [
-      "env",
+      "@babel/preset-env",
       {
-        "targets": {
-          "uglify": true
-        },
+        "forceAllTransforms": true,
         "modules": false
       }
-    ]
+    ],
+    "@babel/preset-react"
   ]
 }

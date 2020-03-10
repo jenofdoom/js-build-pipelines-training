@@ -2,10 +2,10 @@ const path = require('path');
 const autoprefixer = require('autoprefixer');
 const flexfixes = require('postcss-flexbugs-fixes');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const config = {
-  entry: ['babel-polyfill', './src/index.jsx'],
+  entry: ['@babel/polyfill', './src/index.jsx'],
 
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -16,7 +16,7 @@ const config = {
     historyApiFallback: true // enables reloads of routed pages
   },
 
-  devtool: process.env.npm_lifecycle_event === 'build' ? 'cheap-module-source-map' : 'cheap-module-eval-source-map',
+  devtool: process.env.npm_lifecycle_event === 'build' ? 'source-map' : 'cheap-module-eval-source-map',
 
   module: {
     rules: [
@@ -34,27 +34,27 @@ const config = {
       {
         test: /\.scss$/,
         exclude: /node_modules/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            'css-loader',
-            {
-              loader: 'postcss-loader',
-              options: {
-                plugins: [
-                  autoprefixer({browsers: ['last 2 versions']}),
-                  flexfixes()
-                ]
-              }
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                includePaths: [path.resolve(__dirname, 'src')]
-              }
+      use: [
+        MiniCssExtractPlugin.loader,
+        'css-loader',
+        {
+          loader: 'postcss-loader',
+          options: {
+            plugins: [
+              autoprefixer(),
+              flexfixes()
+            ]
+          }
+        },
+        {
+          loader: 'sass-loader',
+          options: {
+            sassOptions: {
+              includePaths: [path.resolve(__dirname, 'src')]
             }
-          ]
-        })
+          }
+        }
+      ]
       },
       {
         test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -69,7 +69,9 @@ const config = {
       template: './src/index.html',
       hash: true
     }),
-    new ExtractTextPlugin('bundle.css')
+    new MiniCssExtractPlugin({
+      filename: 'bundle.css'
+    })
   ],
 
   resolve: {

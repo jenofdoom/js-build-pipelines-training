@@ -24,17 +24,17 @@ class Row extends Component {
   }
 
   render () {
-    let name = this.props.mp.name.split(',');
+    let name = this.props.mp.Contact.split(',');
     name = name.reverse().join(' ');
 
     return (
       <tr>
         <td>{name}</td>
-        <td>{this.props.mp.party}</td>
-        <td>{this.props.mp.electorate}</td>
+        <td>{this.props.mp.Party}</td>
+        <td>{this.props.mp.Electorate}</td>
         <td>
-          <a href={'mailto:' + this.props.mp.email}>
-            <span ref={(ref) => { this.email = ref; }}>{this.props.mp.email}</span>
+          <a href={'mailto:' + this.props.mp['Parliament Email']}>
+            <span ref={(ref) => { this.email = ref; }}>{this.props.mp['Parliament Email']}</span>
           </a>
           <button className="copybutton btn btn-default" ref={(ref) => { this.copy = ref; }}>Copy</button>
         </td>
