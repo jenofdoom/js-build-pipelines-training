@@ -515,10 +515,7 @@ env](http://babeljs.io/docs/plugins/preset-env/).
 
 You could also add additional presets, like the
 [stage-x](http://babeljs.io/docs/plugins/#presets-stage-x-experimental-presets-)
-presets for upcoming JavaScript features, for example
-[preset-stage-3](http://babeljs.io/docs/plugins/preset-stage-3/) includes the
-[object destructuring spread
-operator](http://babeljs.io/docs/plugins/transform-object-rest-spread/).
+presets for upcoming JavaScript features.
 
 ## Add a build command in package.json
 
@@ -527,7 +524,7 @@ In `package.json`:
 ```
 "scripts": {
   "test": "echo \"Error: no test specified\" && exit 1",
-  "build": "./node_modules/.bin/webpack"
+  "build": "./node_modules/.bin/webpack -p"
 },
 ```
 
@@ -580,8 +577,8 @@ In `package.json`:
 ```
 "scripts": {
   "test": "echo \"Error: no test specified\" && exit 1",
-  "build": "./node_modules/.bin/webpack",
-  "start": "./node_modules/.bin/webpack-dev-server --hot --inline"
+  "build": "./node_modules/.bin/webpack -p",
+  "start": "./node_modules/.bin/webpack-dev-server"
 },
 ```
 
